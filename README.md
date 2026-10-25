@@ -1,4 +1,4 @@
-# bootstrap
+# 🥾 bootstrap
 
 Scaffolds a file-based workflow for agent-driven projects: a four-tier work-item
 lifecycle, the rules for working through it, and a linter that checks the
@@ -21,11 +21,11 @@ git -C path/to/project commit -m "Add project workflow"
 
 ## Modes
 
-| Command | Behaviour |
-| --- | --- |
-| `sh bootstrap.sh DIR` | Create missing files. Everything already there is left alone. |
+| Command                         | Behaviour                                                                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `sh bootstrap.sh DIR`           | Create missing files. Everything already there is left alone.                                                                  |
 | `sh bootstrap.sh --upgrade DIR` | Update files installed by an earlier run. Files you edited are kept, with the new version written beside them as `<file>.new`. |
-| `sh bootstrap.sh --force DIR` | Overwrite everything, including files you edited. |
+| `sh bootstrap.sh --force DIR`   | Overwrite everything, including files you edited.                                                                              |
 
 Optional: `--phone NAME` and `--laptop NAME` record the hardware this project is
 worked on. Without them the device rule stays generic.
@@ -69,12 +69,12 @@ directories and a fresh clone would otherwise lose the whole structure.
 
 ## The lifecycle
 
-| Directory | Holds | Moves by |
-| --- | --- | --- |
-| `issues/` | Observations, problems, questions, investigations | Moving to `tasks/open/` once actionable |
-| `tasks/open/` | Work understood well enough to start | Moving to `tasks/closed/` once acceptance criteria are met |
-| `tasks/closed/` | Completed work and its outcome | Staying put |
-| `features/` | How the system behaves and why, independent of any one task | Growing over time |
+| Directory       | Holds                                                       | Moves by                                                   |
+| --------------- | ----------------------------------------------------------- | ---------------------------------------------------------- |
+| `issues/`       | Observations, problems, questions, investigations           | Moving to `tasks/open/` once actionable                    |
+| `tasks/open/`   | Work understood well enough to start                        | Moving to `tasks/closed/` once acceptance criteria are met |
+| `tasks/closed/` | Completed work and its outcome                              | Staying put                                                |
+| `features/`     | How the system behaves and why, independent of any one task | Growing over time                                          |
 
 Filenames are preserved across moves and stay unique across the three work-item
 directories, so that `dependencies` can name them.
@@ -84,20 +84,20 @@ observation from an actionable task will start implementing the observation.
 
 ## The rules
 
-| File | Governs |
-| --- | --- |
-| `execution-and-stopping.md` | Reading only what is needed, proportionate planning, scope control, verification |
-| `incremental-task-scoping.md` | Task size, acceptance criteria, and when decomposition should stop |
-| `work-item-metadata.md` | `area` and `dependencies` — both optional, both only when they constrain real work |
-| `device-aware-development.md` | Picking work by device capability and the ability to verify the result |
-| `commit-policy.md` | Staging only intended changes, verifying before claiming success, when to push |
-| `verify-what-the-user-sees.md` | Checking the rendered or served result, not the diff that should cause it |
+| File                           | Governs                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------- |
+| `execution-and-stopping.md`    | Reading only what is needed, proportionate planning, scope control, verification   |
+| `incremental-task-scoping.md`  | Task size, acceptance criteria, and when decomposition should stop                 |
+| `work-item-metadata.md`        | `area` and `dependencies` — both optional, both only when they constrain real work |
+| `device-aware-development.md`  | Picking work by device capability and the ability to verify the result             |
+| `commit-policy.md`             | Staging only intended changes, verifying before claiming success, when to push     |
+| `verify-what-the-user-sees.md` | Checking the rendered or served result, not the diff that should cause it          |
 
 Two rules cut against the grain of most process documentation, and they are the
 ones worth keeping:
 
-- **Proportionality.** *"Apply them proportionately; do not turn routine changes
-  into unnecessary planning, investigation, or administration."* A small change
+- **Proportionality.** _"Apply them proportionately; do not turn routine changes
+  into unnecessary planning, investigation, or administration."_ A small change
   is one task and no ceremony.
 - **No priority field.** Deciding what to work on belongs to planning, where the
   constraints and the available time are visible — not to a label applied days
@@ -142,13 +142,13 @@ Those remain prose.
 `workflow/.bootstrap-manifest` records the SHA-256 of every file as installed.
 That manifest is what makes `--upgrade` safe. For each file:
 
-| Project state | Result |
-| --- | --- |
-| untouched since install, ruleset changed | replaced |
-| untouched since install, ruleset unchanged | left alone |
-| edited, ruleset unchanged | left alone, silently |
-| edited *and* ruleset changed | kept, new version written as `<file>.new` |
-| edited out of the managed set | left alone and reported |
+| Project state                              | Result                                    |
+| ------------------------------------------ | ----------------------------------------- |
+| untouched since install, ruleset changed   | replaced                                  |
+| untouched since install, ruleset unchanged | left alone                                |
+| edited, ruleset unchanged                  | left alone, silently                      |
+| edited _and_ ruleset changed               | kept, new version written as `<file>.new` |
+| edited out of the managed set              | left alone and reported                   |
 
 A `.new` file is a proposal, not a merge. Read it, fold in what you want, and
 delete it. The manifest is not updated for a file you kept, so the next upgrade
@@ -161,13 +161,13 @@ was extracted into this script, seeded two greenfield projects, and was then
 retrofitted onto kxp. All three are public and playable, and all three carry
 their own work-item record:
 
-| Project | Play | Commits | Work items |
-| --- | --- | --- | --- |
-| [kxp](https://github.com/taolicus/kxp) — real-time rock-paper-scissors tournament | [kxp.pifia.net](https://kxp.pifia.net) | 323 | 133 |
-| [asteroids](https://github.com/taolicus/asteroids) — two-player co-op Asteroids on one ship | [asteroids.pifia.net](https://asteroids.pifia.net) | 72 | 33 |
-| [komikan](https://github.com/taolicus/komikan) — the Komikan board game | [komikan.tequionet.org](https://komikan.tequionet.org) | 37 | 26 |
+| Project                                                                                     | Play                                                   | Commits | Work items |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------ | ------- | ---------- |
+| [kxp](https://github.com/taolicus/kxp) — real-time rock-paper-scissors tournament           | [kxp.pifia.net](https://kxp.pifia.net)                 | 323     | 133        |
+| [asteroids](https://github.com/taolicus/asteroids) — two-player co-op Asteroids on one ship | [asteroids.pifia.net](https://asteroids.pifia.net)     | 72      | 33         |
+| [komikan](https://github.com/taolicus/komikan) — the Komikan board game                     | [komikan.tequionet.org](https://komikan.tequionet.org) | 37      | 26         |
 
-About one work item per two commits. The rules in the three projects are *not*
+About one work item per two commits. The rules in the three projects are _not_
 identical — `incremental-slice-scoping.md` was renamed to `incremental-task-scoping.md`,
 `work-item-metadata.md` was added later, `device-aware-development.md` is
 localised to each project's actual devices, and one project grew a rule of its
@@ -183,8 +183,8 @@ Two examples worth reading in place:
 
 - `workflow/verify-what-the-user-sees.md` in `asteroids` — the original of the
   rule above.
-- `docs/tasks/closed/` in `kxp` — tasks that separate *waiting on effort* from
-  *waiting on an artifact*, and say which device can close them.
+- `docs/tasks/closed/` in `kxp` — tasks that separate _waiting on effort_ from
+  _waiting on an artifact_, and say which device can close them.
 
 ## What this is not
 
