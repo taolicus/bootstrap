@@ -11,14 +11,14 @@ This is a simple personal bootstrap for putting a new project online. It splits 
 
 Do the steps in order. The parts marked "done on the project" are not automated here; they belong in the project repo (`deploy.sh`, build scripts, etc.).
 
-| Step | Tool | What to do |
-| --- | --- | --- |
-| 1. DNS (manual for now) | DNS provider | Point `<name>.<domain>` at the VPS IP. For `pifia.net` use `pifia.net` as the domain. Port 80 must reach the host before requesting a certificate. |
-| 2. Bootstrap | `bootstrap.sh` | Add the workflow files to the project repo. |
-| 3. Repo | `repo.sh` or `git`/`gh` | Create the remote and push. `repo.sh` does this if you run it from the project directory. |
-| 4. Placeholder (done on the new project itself) | Project repo | Add a small placeholder app and a `deploy.sh` that builds/copies it to the host. Match the unit's `ExecStart` and make it listen on the port the host assigns (or honor `-addr`/`ADDR`). |
-| 5. Deploy (also done on the project) | Project `deploy.sh` | Build for `linux/amd64`, copy the binary to `/home/<user>/<name>/<name>` on the host (replace by rename), restart the service, and health check. |
-| 6. Host | `vps.sh` | Create the user, allocate a port, write the systemd unit and nginx vhost, and issue the certificate. Run again to fill gaps or to fix a bare unit when the binary's flags change. | 
+| Step                                            | Tool                    | What to do                                                                                                                                                                               |
+| ----------------------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. DNS (manual for now)                         | DNS provider            | Point `<name>.<domain>` at the VPS IP. For `pifia.net` use `pifia.net` as the domain. Port 80 must reach the host before requesting a certificate.                                       |
+| 2. Bootstrap                                    | `bootstrap.sh`          | Add the workflow files to the project repo.                                                                                                                                              |
+| 3. Repo                                         | `repo.sh` or `git`/`gh` | Create the remote and push. `repo.sh` does this if you run it from the project directory.                                                                                                |
+| 4. Placeholder (done on the new project itself) | Project repo            | Add a small placeholder app and a `deploy.sh` that builds/copies it to the host. Match the unit's `ExecStart` and make it listen on the port the host assigns (or honor `-addr`/`ADDR`). |
+| 5. Deploy (also done on the project)            | Project `deploy.sh`     | Build for `linux/amd64`, copy the binary to `/home/<user>/<name>/<name>` on the host (replace by rename), restart the service, and health check.                                         |
+| 6. Host                                         | `vps.sh`                | Create the user, allocate a port, write the systemd unit and nginx vhost, and issue the certificate. Run again to fill gaps or to fix a bare unit when the binary's flags change.        |
 
 ### Step 2: add the workflow
 
@@ -57,6 +57,7 @@ PORT=18090 sh /path/to/bootstrap/vps.sh
 ```
 
 What it does:
+
 - Creates the service user (default `dev`) and `/home/<user>/<name>` if missing.
 - Allocates a loopback port starting at `BASE_PORT` (default `18080`), skipping ports already used by other units or listeners. A project with an existing unit keeps its port. Pass `PORT` to force one.
 - Writes `/etc/<name>.service` pointing to `/home/<user>/<name>/<name>` and `ADDR=<ip>:<port>`. If the binary exists and `-h` shows `-addr`, `vps.sh` adds `-addr <ip>:<port>` to `ExecStart`. If it shows `-open` defaulting to true, it adds `-open=false`. A later run repairs a bare `ExecStart`.
@@ -75,13 +76,13 @@ Environment: `DEPLOY_HOST` (default `tao`), `DOMAIN` (default `pifia.net`), `POR
 
 ## Examples on this host
 
-| Project | Public | Unit | Port |
-| --- | --- | --- | --- |
-| [kxp](https://github.com/taolicus/kxp) | [kxp.pifia.net](https://kxp.pifia.net) | `kxp.service` | `18080` |
-| [asteroids](https://github.com/taolicus/asteroids) | [asteroids.pifia.net](https://asteroids.pifia.net) | `asteroids.service` | `18081` |
-| [komikan](https://github.com/taolicus/komikan) | [komikan.tequionet.org](https://komikan.tequionet.org) | `komikan.service` | `18082` |
-| [dungeon](https://github.com/taolicus/dungeon) | [dungeon.pifia.net](https://dungeon.pifia.net) | `dungeon.service` | `18083` |
-| coverletter | [coverletter.pifia.net](https://coverletter.pifia.net) | `coverletter.service` | `18084` |
+| Project                                                | Public                                                 | Unit                  | Port    |
+| ------------------------------------------------------ | ------------------------------------------------------ | --------------------- | ------- |
+| [kxp](https://github.com/taolicus/kxp)                 | [kxp.pifia.net](https://kxp.pifia.net)                 | `kxp.service`         | `18080` |
+| [asteroids](https://github.com/taolicus/asteroids)     | [asteroids.pifia.net](https://asteroids.pifia.net)     | `asteroids.service`   | `18081` |
+| [komikan](https://github.com/taolicus/komikan)         | [komikan.tequionet.org](https://komikan.tequionet.org) | `komikan.service`     | `18082` |
+| [dungeon](https://github.com/taolicus/dungeon)         | [dungeon.pifia.net](https://dungeon.pifia.net)         | `dungeon.service`     | `18083` |
+| [coverletter](https://github.com/taolicus/coverletter) | [coverletter.pifia.net](https://coverletter.pifia.net) | `coverletter.service` | `18084` |
 
 ## Requirements
 
